@@ -27,12 +27,16 @@ async def get_application():
         # Add Handlers
         telegram_app.add_handler(CommandHandler("start", start))
         telegram_app.add_handler(CommandHandler("stats", stats))
+        telegram_app.add_handler(CommandHandler("ping", ping))
         telegram_app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_text))
         
         await telegram_app.start()
     return telegram_app
 
 # --- BOT HANDLERS ---
+
+async def ping(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text("🏓 Pong! I am alive and running on Vercel.")
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
