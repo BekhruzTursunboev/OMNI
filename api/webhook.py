@@ -89,11 +89,15 @@ def webhook_handler():
     """
     Vercel entry point. Receives JSON from Telegram.
     """
-    if request.method == "POST":
-        # Run async loop to process update
-        asyncio.run(process_update(request.json))
-        return "OK"
-    return "Invalid Method"
+    try:
+        if request.method == "POST":
+            # Run async loop to process update
+            asyncio.run(process_update(request.json))
+            return "OK"
+        return "Invalid Method"
+    except Exception as e:
+        import traceback
+        return f"ERROR: {str(e)}\n\n{traceback.format_exc()}", 500
 
 async def process_update(json_update):
     application = await get_application()
